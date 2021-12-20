@@ -64,7 +64,7 @@ protected:
 			if (x >= 0 && x < nLevelWidth && y >= 0 && y < nLevelHeight)
 				return sLevel[y * nLevelWidth + x];
 			else
-				reurn L'';
+				return L'';
 		};
 
 		auto SetTile = [&](int x, int y, wchar_t c)
@@ -130,10 +130,10 @@ protected:
 				wchar_t sTileID = GetTile(x + fOffsetX, y + fOffsetY);
 				switch (sTileID)
 				{
-				case L'.';
+				case L'.':
 					Fill(x * nTileWidth, y * nTileHeight, (x + 1) * nTileWidth, (y + 1) * nTileHeight, PIXEL_SOLID, FG_CYAN);
 					break;
-				case L'#';
+				case L'#':
 					Fill(x * nTileWidth, y * nTileHeight, (x + 1) * nTileWidth, (y + 1) * nTileHeight, PIXEL_SOLID, FG_RED);
 					break; 
 				default:
@@ -142,7 +142,7 @@ protected:
 		}
 
 		//Draw Player
-		Fill((fPlayerPosX - fOffsetX) * nTileWidth, (fPlayerPosY - fOffsetY) * nTileWidth, PIXEL_SOLID, FG_GREEN)	
+		Fill((fPlayerPosX - fOffsetX) * nTileWidth, (fPlayerPosY - fOffsetY) * nTileWidth, PIXEL_SOLID, FG_GREEN);
 
 
 		return true;
