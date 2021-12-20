@@ -5,7 +5,7 @@
 #include <string>
 using namespace std;
 
-#include <olcConsoleGameEngine.h>
+#include "olcConsoleGameEngine.h"
 
 class HJ_Platformer : public olcConsoleGameEngine
 {
@@ -37,21 +37,20 @@ protected:
 
 		sLevel += L"................................................................";
 		sLevel += L"................................................................";
+		sLevel += L"............#...................................................";
+		sLevel += L"............#.................#######################...........";
+		sLevel += L"............#..........########.................................";
+		sLevel += L".......#....#.........###..............#.#......................";
+		sLevel += L"....................###................#.#......................";
+		sLevel += L"...................####.........................................";
+		sLevel += L"####################################.##############.....########";
+		sLevel += L"...................................#.#...............###........";
+		sLevel += L"........................############.#............###...........";
+		sLevel += L"........................#............#.........###..............";
+		sLevel += L"........................#.############......###.................";
+		sLevel += L"........................#................###....................";
+		sLevel += L"........................#################.......................";
 		sLevel += L"................................................................";
-		sLevel += L"................................................................";
-		sLevel += L"........................##......................................";
-		sLevel += L"..........................#...##................................";
-		sLevel += L".................................#........##....................";
-		sLevel += L".....................###.............#..........................";
-		sLevel += L"..................###............#....##........................";
-		sLevel += L"................###.............................................";
-		sLevel += L"######################..#####################..#......##########";
-		sLevel += L"....................##.....#............#...........###.........";
-		sLevel += L".....................#......#############.......####............";
-		sLevel += L".....................#......................####................";
-		sLevel += L".....................#########################..................";
-		sLevel += L"................................................................";
-
 
 		return true;
 	}
@@ -64,18 +63,18 @@ protected:
 			if (x >= 0 && x < nLevelWidth && y >= 0 && y < nLevelHeight)
 				return sLevel[y * nLevelWidth + x];
 			else
-				return L'';
+				return L'.';
 		};
 
 		auto SetTile = [&](int x, int y, wchar_t c)
 		{
 			if (x >= 0 && x < nLevelWidth && y >= 0 && y < nLevelHeight)
 				sLevel[y * nLevelWidth + x] = c;
-		
+
 		};
 
 		fPlayerVelX = 0.0f;
-		fPlayerVelX = 0.0f;
+		fPlayerVelY = 0.0f;
 
 		//Handle Input
 		if (IsFocused())
@@ -84,20 +83,23 @@ protected:
 			{
 				fPlayerVelY = -6.0f;
 			}
+
 			if (GetKey(VK_DOWN).bHeld)
 			{
 				fPlayerVelY = 6.0f;
 			}
+
 			if (GetKey(VK_LEFT).bHeld)
 			{
 				fPlayerVelX = -6.0f;
 			}
+
 			if (GetKey(VK_RIGHT).bHeld)
 			{
 				fPlayerVelX = 6.0f;
 			}
 		}
-		
+
 		fPlayerPosX = fPlayerPosX + fPlayerVelX * fElapsedTime;
 		fPlayerPosY = fPlayerPosY + fPlayerVelY * fElapsedTime;
 
@@ -105,7 +107,7 @@ protected:
 		fCameraPosY = fPlayerPosY;
 
 		// Draw the level
-		int nTileWidth = 16; 
+		int nTileWidth = 16;
 		int nTileHeight = 16;
 		int nVisibleTilesX = ScreenWidth() / nTileWidth;
 		int nVisibleTilesY = ScreenHeight() / nTileHeight;
@@ -125,24 +127,25 @@ protected:
 		//Draw visible tile map
 		for (int x = 0; x < nVisibleTilesX; x++)
 		{
-			for(int y = 0; y < nVisibleTilesY; y++)
+			for (int y = 0; y < nVisibleTilesY; y++)
 			{
 				wchar_t sTileID = GetTile(x + fOffsetX, y + fOffsetY);
 				switch (sTileID)
 				{
-				case L'.':
+				case L'.': //sky
 					Fill(x * nTileWidth, y * nTileHeight, (x + 1) * nTileWidth, (y + 1) * nTileHeight, PIXEL_SOLID, FG_CYAN);
 					break;
-				case L'#':
+				case L'#': //solid block
 					Fill(x * nTileWidth, y * nTileHeight, (x + 1) * nTileWidth, (y + 1) * nTileHeight, PIXEL_SOLID, FG_RED);
-					break; 
+					break;
 				default:
+					break;
 				}
 			}
 		}
 
 		//Draw Player
-		Fill((fPlayerPosX - fOffsetX) * nTileWidth, (fPlayerPosY - fOffsetY) * nTileWidth, PIXEL_SOLID, FG_GREEN);
+		Fill((fPlayerPosX - fOffsetX) * nTileWidth, (fPlayerPosY - fOffsetY) * nTileWidth, (fPlayerPosX - fOffsetX + 1.0f) * nTileWidth, (fPlayerPosY - fOffsetY + 1.0f) * nTileHeight, PIXEL_SOLID, FG_GREEN);
 
 
 		return true;
@@ -159,7 +162,7 @@ int main()
 	HJ_Platformer game;
 	if (game.ConstructConsole(160, 120, 8, 8))
 		game.Start();
-	
-		return 0;
+
+	return 0;
 }
 
