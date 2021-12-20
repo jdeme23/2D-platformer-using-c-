@@ -14,6 +14,7 @@ int main()
 	string comment;
 	 
 	cout << "I work" << endl;
+	cout << "I work Julia" << endl; 
 	cin >> comment; 
 	cout << comment << endl;
 
