@@ -107,8 +107,8 @@ protected:
 		fCameraPosY = fPlayerPosY;
 
 		// Draw the level
-		int nTileWidth = 16;
-		int nTileHeight = 16;
+		int nTileWidth = 8;
+		int nTileHeight = 8;
 		int nVisibleTilesX = ScreenWidth() / nTileWidth;
 		int nVisibleTilesY = ScreenHeight() / nTileHeight;
 
@@ -124,19 +124,23 @@ protected:
 		if (fOffsetX > nLevelWidth - nVisibleTilesX) fOffsetX = nLevelWidth - nVisibleTilesX;
 		if (fOffsetY > nLevelHeight - nVisibleTilesY) fOffsetY = nLevelHeight - nVisibleTilesY;
 
+		//Get offsets for smooth movement
+		float fTileOffsetX = (fOffsetX - (int)fOffsetX) * nTileWidth;
+		float fTileOffsetY = (fOffsetY - (int)fOffsetY) * nTileHeight;	
+
 		//Draw visible tile map
-		for (int x = 0; x < nVisibleTilesX; x++)
+		for (int x = -1; x < nVisibleTilesX + 1; x++)
 		{
-			for (int y = 0; y < nVisibleTilesY; y++)
+			for (int y = -1; y < nVisibleTilesY + 1; y++)
 			{
 				wchar_t sTileID = GetTile(x + fOffsetX, y + fOffsetY);
 				switch (sTileID)
 				{
 				case L'.': //sky
-					Fill(x * nTileWidth, y * nTileHeight, (x + 1) * nTileWidth, (y + 1) * nTileHeight, PIXEL_SOLID, FG_CYAN);
+					Fill(x * nTileWidth - fTileOffsetX, y * nTileHeight - fTileOffsetY, (x + 1) * nTileWidth - fTileOffsetX, (y + 1) * nTileHeight - fTileOffsetY, PIXEL_SOLID, FG_CYAN);
 					break;
 				case L'#': //solid block
-					Fill(x * nTileWidth, y * nTileHeight, (x + 1) * nTileWidth, (y + 1) * nTileHeight, PIXEL_SOLID, FG_RED);
+					Fill(x * nTileWidth - fTileOffsetX, y * nTileHeight - fTileOffsetY, (x + 1) * nTileWidth - fTileOffsetX, (y + 1) * nTileHeight - fTileOffsetY, PIXEL_SOLID, FG_RED);
 					break;
 				default:
 					break;
