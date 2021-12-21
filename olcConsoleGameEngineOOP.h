@@ -203,16 +203,16 @@ public:
 	int nHeight = 0;
 
 private:
-	wchar_t *m_Glyphs = nullptr;
-	short *m_Colours = nullptr;
+	wchar_t* m_Glyphs = nullptr;
+	short* m_Colours = nullptr;
 
 	void Create(int w, int h)
 	{
 		nWidth = w;
 		nHeight = h;
-		m_Glyphs = new wchar_t[w*h];
-		m_Colours = new short[w*h];
-		for (int i = 0; i < w*h; i++)
+		m_Glyphs = new wchar_t[w * h];
+		m_Colours = new short[w * h];
+		for (int i = 0; i < w * h; i++)
 		{
 			m_Glyphs[i] = L' ';
 			m_Colours[i] = FG_BLACK;
@@ -222,7 +222,7 @@ private:
 public:
 	void SetGlyph(int x, int y, wchar_t c)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return;
 		else
 			m_Glyphs[y * nWidth + x] = c;
@@ -230,7 +230,7 @@ public:
 
 	void SetColour(int x, int y, short c)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return;
 		else
 			m_Colours[y * nWidth + x] = c;
@@ -238,7 +238,7 @@ public:
 
 	wchar_t GetGlyph(int x, int y)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return L' ';
 		else
 			return m_Glyphs[y * nWidth + x];
@@ -246,7 +246,7 @@ public:
 
 	short GetColour(int x, int y)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return FG_BLACK;
 		else
 			return m_Colours[y * nWidth + x];
@@ -256,7 +256,7 @@ public:
 	{
 		int sx = (int)(x * (float)nWidth);
 		int sy = (int)(y * (float)nHeight - 1.0f);
-		if (sx <0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+		if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
 			return L' ';
 		else
 			return m_Glyphs[sy * nWidth + sx];
@@ -266,7 +266,7 @@ public:
 	{
 		int sx = (int)(x * (float)nWidth);
 		int sy = (int)(y * (float)nHeight - 1.0f);
-		if (sx <0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+		if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
 			return FG_BLACK;
 		else
 			return m_Colours[sy * nWidth + sx];
@@ -274,7 +274,7 @@ public:
 
 	bool Save(wstring sFile)
 	{
-		FILE *f = nullptr;
+		FILE* f = nullptr;
 		_wfopen_s(&f, sFile.c_str(), L"wb");
 		if (f == nullptr)
 			return false;
@@ -296,7 +296,7 @@ public:
 		nWidth = 0;
 		nHeight = 0;
 
-		FILE *f = nullptr;
+		FILE* f = nullptr;
 		_wfopen_s(&f, sFile.c_str(), L"rb");
 		if (f == nullptr)
 			return false;
@@ -325,12 +325,12 @@ public:
 		DWORD res_size = SizeofResource(NULL, res);
 
 
-		
+
 
 
 		istringstream iss(res_data);
-		istream *is = &iss;
-		
+		istream* is = &iss;
+
 		delete[] m_Glyphs;
 		delete[] m_Colours;
 		nWidth = 0;
@@ -338,10 +338,10 @@ public:
 
 		is->read((char*)&nWidth, sizeof(int) * 1);
 		is->read((char*)&nHeight, sizeof(int) * 1);
-		
+
 		Create(nWidth, nHeight);
-		
-		iss.read((char*)m_Colours, sizeof(short) * nWidth * nHeight);		
+
+		iss.read((char*)m_Colours, sizeof(short) * nWidth * nHeight);
 		iss.read((char*)m_Glyphs, sizeof(wchar_t) * nWidth * nHeight);
 
 
@@ -360,19 +360,19 @@ public:
 public:
 	int ConstructConsole(int width, int height, int fontw, int fonth);
 	void Start();
-	
+
 public:
 	virtual void Draw(int x, int y, wchar_t c = 0x2588, short col = 0x000F);
 	void Fill(int x1, int y1, int x2, int y2, wchar_t c = 0x2588, short col = 0x000F);
 	void DrawString(int x, int y, wstring c, short col = 0x000F);
 	void DrawStringAlpha(int x, int y, wstring c, short col = 0x000F);
-	void Clip(int &x, int &y);
+	void Clip(int& x, int& y);
 	void DrawLine(int x1, int y1, int x2, int y2, wchar_t c = 0x2588, short col = 0x000F);
 	void DrawCircle(int xc, int yc, int r, wchar_t c = 0x2588, short col = 0x000F);
 	void FillCircle(int xc, int yc, int r, wchar_t c = 0x2588, short col = 0x000F);
-	void DrawSprite(int x, int y, olcSprite *sprite);
-	void DrawPartialSprite(int x, int y, olcSprite *sprite, int ox, int oy, int w, int h);
-	void DrawWireFrameModel(const vector<pair<float, float>> &vecModelCoordinates, float x, float y, float r = 0.0f, float s = 1.0f, short col = FG_WHITE, wchar_t c = PIXEL_SOLID);
+	void DrawSprite(int x, int y, olcSprite* sprite);
+	void DrawPartialSprite(int x, int y, olcSprite* sprite, int ox, int oy, int w, int h);
+	void DrawWireFrameModel(const vector<pair<float, float>>& vecModelCoordinates, float x, float y, float r = 0.0f, float s = 1.0f, short col = FG_WHITE, wchar_t c = PIXEL_SOLID);
 	int ScreenWidth();
 	int ScreenHeight();
 
@@ -388,7 +388,7 @@ protected:
 	virtual bool OnUserDestroy();
 
 
-	int Error(const wchar_t *msg);
+	int Error(const wchar_t* msg);
 	static BOOL CloseHandler(DWORD evt);
 
 protected:
@@ -424,7 +424,7 @@ protected:
 		olcAudioSample(std::wstring sWavFile)
 		{
 			// Load Wav file and convert to float format
-			FILE *f = nullptr;
+			FILE* f = nullptr;
 			_wfopen_s(&f, sWavFile.c_str(), L"rb");
 			if (f == nullptr)
 				return;
@@ -468,7 +468,7 @@ protected:
 
 			// Create floating point buffer to hold audio sample
 			fSample = new float[nSamples * nChannels];
-			float *pSample = fSample;
+			float* pSample = fSample;
 
 			// Read in audio data and normalise
 			for (long i = 0; i < nSamples; i++)
@@ -488,7 +488,7 @@ protected:
 		}
 
 		WAVEFORMATEX wavHeader;
-		float *fSample = nullptr;
+		float* fSample = nullptr;
 		long nSamples = 0;
 		int nChannels = 0;
 		bool bSampleValid = false;
@@ -565,7 +565,7 @@ protected:
 protected:
 	int m_nScreenWidth;
 	int m_nScreenHeight;
-	CHAR_INFO *m_bufScreen;
+	CHAR_INFO* m_bufScreen;
 	wstring m_sAppName;
 	HANDLE m_hOriginalConsole;
 	CONSOLE_SCREEN_BUFFER_INFO m_OriginalConsoleInfo;
@@ -577,7 +577,7 @@ protected:
 	bool m_mouseOldState[5] = { 0 };
 	bool m_mouseNewState[5] = { 0 };
 	bool m_bConsoleInFocus = true;
-	
+
 	bool m_bEnableSound = false;
 	unsigned int m_nSampleRate;
 	unsigned int m_nChannels;
@@ -585,7 +585,7 @@ protected:
 	unsigned int m_nBlockSamples;
 	unsigned int m_nBlockCurrent;
 	short* m_pBlockMemory = nullptr;
-	WAVEHDR *m_pWaveHeaders = nullptr;
+	WAVEHDR* m_pWaveHeaders = nullptr;
 	HWAVEOUT m_hwDevice = nullptr;
 	std::thread m_AudioThread;
 	std::atomic<bool> m_bAudioThreadActive = false;

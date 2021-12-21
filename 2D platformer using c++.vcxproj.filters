@@ -21,7 +21,7 @@
     <ClCompile Include="cMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Downloads\videos-master\videos-master\olcConsoleGameEngineOOP.cpp">
+    <ClCompile Include="olcConsoleGameEngineOOP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClInclude Include="cMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Downloads\videos-master\videos-master\olcConsoleGameEngineOOP.h">
+    <ClInclude Include="olcConsoleGameEngineOOP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
