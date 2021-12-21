@@ -42,16 +42,20 @@ bool cMap::Create(string fileData, olcSprite* sprite, string name)
 	if (data.is_open())
 	{
 		data >> nWidth >> nHeight;
-		
-		for ()
+		m_indices = new int[nWidth * nHeight];
+		m_solids = new bool[nWidth * nHeight];
+		for (int i = 0; i < nWidth * nHeight; i++)
 		{
-			for ()
-			{
-
-			}
+			data >> m_indices[i];
+			data >> m_solids[i];
 		}
 			return true;
 	}
 	
 	return false;
+}
+
+cMap_Village1::cMap_Village1()
+{
+	Create("rpgdata/map/village1.lvl", new olcSprite(L"rpgdata/gfx/toml_spritesheetdark.spr"), "coder town");
 }

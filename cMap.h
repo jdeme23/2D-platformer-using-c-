@@ -25,3 +25,8 @@ private:
 
 };
 
+class cMap_Village1 : public cMap
+{
+public:
+	cMap_Village1();
+};

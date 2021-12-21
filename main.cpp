@@ -6,8 +6,9 @@
 using namespace std;
 
 #include "olcConsoleGameEngineOOP.h"
+#include "cMap.h"
 
-class HJ_Platformer : public olcConsoleGameEngine
+class HJ_Platformer : public olcConsoleGameEngineOOP
 {
 public:
 	HJ_Platformer()
@@ -15,9 +16,7 @@ public:
 		m_sAppName = L"Tile Based Platform Game";
 	}
 private:
-	wstring sLevel;
-	int nLevelWidth;
-	int nLevelHeight;
+	cMap* m_pCurrentMap = nullptr;
 
 	float fPlayerPosX = 0.0f;
 	float fPlayerPosY = 0.0f;
@@ -32,46 +31,14 @@ private:
 protected:
 	virtual bool OnUserCreate()
 	{
-		nLevelWidth = 64;
-		nLevelHeight = 16;
+		m_pCurrentMap = new cMap_Village1();
 
-		sLevel += L"................................................................";
-		sLevel += L"................................................................";
-		sLevel += L"............#...................................................";
-		sLevel += L"............#.................#######################...........";
-		sLevel += L"............#..........########.................................";
-		sLevel += L".......#....#.........###..............#.#......................";
-		sLevel += L"....................###................#.#......................";
-		sLevel += L"...................####.........................................";
-		sLevel += L"####################################.##############.....########";
-		sLevel += L"...................................#.#...............###........";
-		sLevel += L"........................############.#............###...........";
-		sLevel += L"........................#............#.........###..............";
-		sLevel += L"........................#.############......###.................";
-		sLevel += L"........................#................###....................";
-		sLevel += L"........................#################.......................";
-		sLevel += L"................................................................";
 
 		return true;
 	}
 
 	virtual bool OnUserUpdate(float fElapsedTime)
 	{
-		//Utility Lambdas
-		auto GetTile = [&](int x, int y)
-		{
-			if (x >= 0 && x < nLevelWidth && y >= 0 && y < nLevelHeight)
-				return sLevel[y * nLevelWidth + x];
-			else
-				return L'.';
-		};
-
-		auto SetTile = [&](int x, int y, wchar_t c)
-		{
-			if (x >= 0 && x < nLevelWidth && y >= 0 && y < nLevelHeight)
-				sLevel[y * nLevelWidth + x] = c;
-
-		};
 
 		fPlayerVelX = 0.0f;
 		fPlayerVelY = 0.0f;
@@ -106,7 +73,7 @@ protected:
 		//Collision
 		if (fPlayerVelX <= 0)
 		{
-			if (GetTile(fNewPlayerPosX + 0.0f, fPlayerPosY + 0.0f) != L'.' || GetTile(fNewPlayerPosX + 0.0f, fPlayerPosY + 0.9f) != L'.')
+			if (m_pCurrentMap->GetSolid(fNewPlayerPosX + 0.0f, fPlayerPosY + 0.0f) || m_pCurrentMap->GetSolid(fNewPlayerPosX + 0.0f, fPlayerPosY + 0.9f) )
 			{
 				fNewPlayerPosX = (int)fNewPlayerPosX + 1;
 				fPlayerVelX = 0;
@@ -115,7 +82,7 @@ protected:
 		}
 		else
 		{
-			if (GetTile(fNewPlayerPosX + 1.0f, fPlayerPosY + 0.0f) != L'.' || GetTile(fNewPlayerPosX + 1.0f, fPlayerPosY + 0.9f) !=L'.')
+			if (m_pCurrentMap->GetSolid(fNewPlayerPosX + 1.0f, fPlayerPosY + 0.0f) || m_pCurrentMap->GetSolid(fNewPlayerPosX + 1.0f, fPlayerPosY + 0.9f) )
 			{
 				fNewPlayerPosX = (int)fNewPlayerPosX;
 				fPlayerVelX = 0;
@@ -124,7 +91,7 @@ protected:
 
 		if (fPlayerVelY <= 0)
 		{
-			if (GetTile(fNewPlayerPosX + 0.0f, fNewPlayerPosY) != L'.' || GetTile(fNewPlayerPosX + 0.9f, fNewPlayerPosY) != L'.')
+			if (m_pCurrentMap->GetSolid(fNewPlayerPosX + 0.0f, fNewPlayerPosY) || m_pCurrentMap->GetSolid(fNewPlayerPosX + 0.9f, fNewPlayerPosY) )
 			{
 				fNewPlayerPosY = (int)fNewPlayerPosY + 1;
 				fPlayerVelX = 0;
@@ -133,7 +100,7 @@ protected:
 		}
 		else
 		{
-			if (GetTile(fNewPlayerPosX + 0.0f, fNewPlayerPosY + 1.0f) != L'.' || GetTile(fNewPlayerPosX + 0.9f, fNewPlayerPosY + 1.0f) != L'.')
+			if (m_pCurrentMap->GetSolid(fNewPlayerPosX + 0.0f, fNewPlayerPosY + 1.0f) || m_pCurrentMap->GetSolid(fNewPlayerPosX + 0.9f, fNewPlayerPosY + 1.0f))
 			{
 				fNewPlayerPosY = (int)fNewPlayerPosY;
 				fPlayerVelY = 0;
@@ -162,8 +129,8 @@ protected:
 		//Clamp camera to game boundaries 
 		if (fOffsetX < 0) fOffsetX = 0;
 		if (fOffsetY < 0) fOffsetY = 0;
-		if (fOffsetX > nLevelWidth - nVisibleTilesX) fOffsetX = nLevelWidth - nVisibleTilesX;
-		if (fOffsetY > nLevelHeight - nVisibleTilesY) fOffsetY = nLevelHeight - nVisibleTilesY;
+		if (fOffsetX > m_pCurrentMap->nWidth - nVisibleTilesX) fOffsetX = m_pCurrentMap->nWidth - nVisibleTilesX;
+		if (fOffsetY > m_pCurrentMap->nHeight - nVisibleTilesY) fOffsetY = m_pCurrentMap->nHeight - nVisibleTilesY;
 
 		//Get offsets for smooth movement
 		float fTileOffsetX = (fOffsetX - (int)fOffsetX) * nTileWidth;
@@ -174,18 +141,11 @@ protected:
 		{
 			for (int y = -1; y < nVisibleTilesY + 1; y++)
 			{
-				wchar_t sTileID = GetTile(x + fOffsetX, y + fOffsetY);
-				switch (sTileID)
-				{
-				case L'.': //sky
-					Fill(x * nTileWidth - fTileOffsetX, y * nTileHeight - fTileOffsetY, (x + 1) * nTileWidth - fTileOffsetX, (y + 1) * nTileHeight - fTileOffsetY, PIXEL_SOLID, FG_CYAN);
-					break;
-				case L'#': //solid block
-					Fill(x * nTileWidth - fTileOffsetX, y * nTileHeight - fTileOffsetY, (x + 1) * nTileWidth - fTileOffsetX, (y + 1) * nTileHeight - fTileOffsetY, PIXEL_SOLID, FG_RED);
-					break;
-				default:
-					break;
-				}
+				int idx = m_pCurrentMap->GetIndex(x + fOffsetX, y + fOffsetY);
+				int sx = idx % 10; // column
+				int sy = idx / 10; // row
+			
+				DrawPartialSprite(x * nTileWidth - fTileOffsetX, y * nTileHeight - fTileOffsetY, m_pCurrentMap->pSprite, sx * nTileWidth, sy * nTileHeight, nTileWidth, nTileHeight);
 			}
 		}
 
