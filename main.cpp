@@ -18,8 +18,8 @@ public:
 private:
 	cMap* m_pCurrentMap = nullptr;
 
-	float fPlayerPosX = 0.0f;
-	float fPlayerPosY = 0.0f;
+	float fPlayerPosX = 15.0f;
+	float fPlayerPosY = 15.0f;
 
 	float fPlayerVelX = 0.0f;
 	float fPlayerVelY = 0.0f;
@@ -115,8 +115,8 @@ protected:
 		fCameraPosY = fPlayerPosY;
 
 		// Draw the level
-		int nTileWidth = 8;
-		int nTileHeight = 8;
+		int nTileWidth = 16;
+		int nTileHeight = 16;
 		int nVisibleTilesX = ScreenWidth() / nTileWidth;
 		int nVisibleTilesY = ScreenHeight() / nTileHeight;
 
@@ -162,7 +162,7 @@ protected:
 int main()
 {
 	HJ_Platformer game;
-	if (game.ConstructConsole(117, 117, 4, 4))
+	if (game.ConstructConsole(256, 240, 4, 4))
 		game.Start();
 
 	return 0;

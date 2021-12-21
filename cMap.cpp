@@ -19,7 +19,7 @@ cMap::~cMap()
 
 int cMap::GetIndex(int x, int y)
 {
-	if (x >= 0 && x < nWidth && y > 0 && y < nHeight)
+	if (x >= 0 && x < nWidth && y >= 0 && y < nHeight)
 		return m_indices[y * nWidth + x];
 	else
 		return 0;
@@ -27,7 +27,7 @@ int cMap::GetIndex(int x, int y)
 
 bool cMap::GetSolid(int x, int y)
 {
-	if (x >= 0 && x < nWidth && y > 0 && y < nHeight)
+	if (x >= 0 && x < nWidth && y >= 0 && y < nHeight)
 		return m_solids[y * nWidth + x];
 	else
 		return 0;
