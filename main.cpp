@@ -5,7 +5,7 @@
 #include <string>
 using namespace std;
 
-#include "olcConsoleGameEngine.h"
+#include "olcConsoleGameEngineOOP.h"
 
 class HJ_Platformer : public olcConsoleGameEngine
 {
@@ -202,7 +202,7 @@ protected:
 int main()
 {
 	HJ_Platformer game;
-	if (game.ConstructConsole(160, 120, 8, 8))
+	if (game.ConstructConsole(32, 32, 4, 4))
 		game.Start();
 
 	return 0;
