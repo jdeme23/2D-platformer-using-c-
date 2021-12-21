@@ -100,8 +100,49 @@ protected:
 			}
 		}
 
-		fPlayerPosX = fPlayerPosX + fPlayerVelX * fElapsedTime;
-		fPlayerPosY = fPlayerPosY + fPlayerVelY * fElapsedTime;
+		float fNewPlayerPosX = fPlayerPosX + fPlayerVelX * fElapsedTime;
+		float fNewPlayerPosY = fPlayerPosY + fPlayerVelY * fElapsedTime;
+
+		//Collision
+		if (fPlayerVelX <= 0)
+		{
+			if (GetTile(fNewPlayerPosX + 0.0f, fPlayerPosY + 0.0f) != L'.' || GetTile(fNewPlayerPosX + 0.0f, fPlayerPosY + 0.9f) != L'.')
+			{
+				fNewPlayerPosX = (int)fNewPlayerPosX + 1;
+				fPlayerVelX = 0;
+			}
+				 
+		}
+		else
+		{
+			if (GetTile(fNewPlayerPosX + 1.0f, fPlayerPosY + 0.0f) != L'.' || GetTile(fNewPlayerPosX + 1.0f, fPlayerPosY + 0.9f) !=L'.')
+			{
+				fNewPlayerPosX = (int)fNewPlayerPosX;
+				fPlayerVelX = 0;
+			}
+		}
+
+		if (fPlayerVelY <= 0)
+		{
+			if (GetTile(fNewPlayerPosX + 0.0f, fNewPlayerPosY) != L'.' || GetTile(fNewPlayerPosX + 0.9f, fNewPlayerPosY) != L'.')
+			{
+				fNewPlayerPosY = (int)fNewPlayerPosY + 1;
+				fPlayerVelX = 0;
+			}
+
+		}
+		else
+		{
+			if (GetTile(fNewPlayerPosX + 0.0f, fNewPlayerPosY + 1.0f) != L'.' || GetTile(fNewPlayerPosX + 0.9f, fNewPlayerPosY + 1.0f) != L'.')
+			{
+				fNewPlayerPosY = (int)fNewPlayerPosY;
+				fPlayerVelY = 0;
+			}
+		}
+
+		fPlayerPosX = fNewPlayerPosX;
+		fPlayerPosY = fNewPlayerPosY;
+
 
 		fCameraPosX = fPlayerPosX;
 		fCameraPosY = fPlayerPosY;
@@ -155,9 +196,6 @@ protected:
 		return true;
 	}
 };
-
-
-
 
 
 
