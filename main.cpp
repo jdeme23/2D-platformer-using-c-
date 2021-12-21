@@ -162,7 +162,7 @@ protected:
 int main()
 {
 	HJ_Platformer game;
-	if (game.ConstructConsole(32, 32, 4, 4))
+	if (game.ConstructConsole(117, 117, 4, 4))
 		game.Start();
 
 	return 0;
