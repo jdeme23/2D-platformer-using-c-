@@ -7,6 +7,7 @@ using namespace std;
 
 #include "olcConsoleGameEngineOOP.h"
 #include "cMap.h"
+#include "RPG_Assets.h"
 
 class HJ_Platformer : public olcConsoleGameEngineOOP
 {
@@ -18,21 +19,35 @@ public:
 private:
 	cMap* m_pCurrentMap = nullptr;
 
-	float fPlayerPosX = 15.0f;
-	float fPlayerPosY = 15.0f;
+	float fPlayerPosX = 5.0f;
+	float fPlayerPosY = 6.0f;
 
 	float fPlayerVelX = 0.0f;
 	float fPlayerVelY = 0.0f;
 
+	bool bPlayerOnGround = false;
+
 	float fCameraPosX = 0.0f;
 	float fCameraPosY = 0.0f;
+
+	//Sprite Resources
+	olcSprite* spriteTiles = nullptr;
+	olcSprite* spriteMan = nullptr;
+
+	//Sprite selection flags
+	int nDirModX = 0;
+	int nDirModY = 0;
 
 
 protected:
 	virtual bool OnUserCreate()
 	{
+		RPG_Assets::get().LoadSprites();
+		
 		m_pCurrentMap = new cMap_Village1();
 
+		spriteTiles = new olcSprite(L"../SpriteEditor/mario1.spr");
+		spriteMan = new olcSprite(L"../SpriteEditor/miniJario.spr");
 
 		return true;
 	}

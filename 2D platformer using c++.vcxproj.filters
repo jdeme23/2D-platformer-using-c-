@@ -24,12 +24,18 @@
     <ClCompile Include="olcConsoleGameEngineOOP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RPG_Assets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="olcConsoleGameEngineOOP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RPG_Assets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

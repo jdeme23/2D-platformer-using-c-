@@ -57,5 +57,6 @@ bool cMap::Create(string fileData, olcSprite* sprite, string name)
 
 cMap_Village1::cMap_Village1()
 {
-	Create("rpgdata/map/village1.lvl", new olcSprite(L"rpgdata/gfx/toml_spritesheetdark.spr"), "coder town");
+	Create("rpgdata/map/village1.lvl", RPG_Assets::get().GetSprite("village"), "coder town");
 }
+

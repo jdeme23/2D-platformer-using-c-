@@ -1,6 +1,7 @@
 #pragma once
 
 #include "olcConsoleGameEngineOOP.h"
+#include "RPG_Assets.h"
 
 class cMap
 {
